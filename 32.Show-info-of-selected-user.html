@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Show info of selected user
+
+ 
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+
+           const url = "https://jsonplaceholder.typicode.com/users"
+
+           
+
+           const { useState, useEffect } = React 
+
+           function UserList(props){
+               const [user, setUser] = useState([])
+               const [name, setName] = useState('')
+               const [show, setShow] = useState('Select any user')
+
+               const handleChange = (e) => {
+                   setName(e.target.value) 
+                   let result = ''
+                   if(e.target.value === 'default'){
+                       result = 'select any user'
+                   }
+                   else{
+                        user.forEach((ele) => {
+                            if(ele.name === e.target.value){
+                                result = `${ele.name} - ${ele.email} - ${ele.address.city}`
+                            }
+                        })
+                   }
+                  setShow(result)
+                }
+
+               useEffect(() => {
+                   axios.get(url)
+                      .then((response) => {
+                          const result = response.data 
+                          setUser(result)
+                      })
+               })
+
+               return(
+                   <div>
+                       <label> Users </label>
+                       <select value={name } onChange={handleChange} >
+                       <option value=""> Select user</option><br/>
+                       
+
+                       {user.map((ele) => {
+                           return <option value={ele.name} key={ele.id}> {ele.name} </option>
+                       })}
+
+                       
+                       </select><br/>
+                       <p> {show}</p>
+
+                       
+
+       
+                   </div>
+               )
+           }
+           ReactDOM.render(<UserList />, rootHandle)
+           
+           
+           
+        </script>
+    </body>
+</html>

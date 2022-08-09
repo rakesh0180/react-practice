@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Select employees
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+        <script type="text/babel">
+            const rootHandle = document.getElementById('root')
+            /*
+            1.You are provided with an array of employees info
+            2.Display them in a table format
+            3.Next to each employee, provide a checkbox input
+            4.When we click on the checkbox associated with an employee,show them as the selected employee
+            */
+
+            const { useState } = React
+            const users = [
+                { id: 1, name: 'emp11', email: 'emp11@gmail.com', selected: false },
+                { id: 2, name: 'emp12', email: 'emp12@gmail.com', selected: false },
+                { id: 3, name: 'emp13', email: 'emp13@gmail.com', selected: false },
+                { id: 4, name: 'emp14', email: 'emp14@gmail.com', selected: false }
+            ]
+
+            function SelectEmployee(props){
+                const [data, setData] = useState(users)
+                const [selectedItem, setSelectedItem]=useState([])
+                const handleCheck = (i) => {
+                    const list = [...data]
+                    const result = list.map((ele) => {
+                        if(ele.id === i){
+                            debugger
+                            setSelectedItem(ele)
+                            return { selected:!ele.selected}
+                        }
+                        else{
+                            return ele
+                        }
+                    })
+                    console.log(result);
+                    setData(result)
+                }
+                const selected = data.filter((ele) => {
+                    return ele.selected
+                })
+                
+
+                return(
+                    <div>
+                        <h1>Listing Employees - {data.length}</h1>
+                        <table border="1px">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>name</th>
+                                    <th>action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {data.map((ele, i) => {
+                                    return(
+                                        <tr key={ele.id}>
+                                            <td>{ele.id}</td>
+                                            <td>{ele.name}</td>
+                                            <td><input type="checkbox" checked={ele.selected} onChange={() => {handleCheck(ele.id)}}/></td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                        <h1>Selected Employees</h1>
+                        <ul>
+                            {selectedItem.map((ele, i) => {
+                                return <li key={i}>{ele.name}</li>
+                            })}
+                        </ul>
+ 
+
+                    </div>
+                )
+
+              
+            }
+           ReactDOM.render(<SelectEmployee/>, rootHandle)           
+        </script>
+    </body>
+</html>

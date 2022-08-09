@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+             Currency conversion
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+
+           const { useState, useEffect } = React
+           
+           const CurrencyConverter = (props) => {
+                const [ data, setData ] = useState({})
+                const [ usd, setUsd ] = useState(0)
+                const [ inr, setInr ] = useState(0)
+                const [ conversion, setConversion ] = useState()
+                
+
+                const handleRange = (e) => {
+                    const range = e.target.value
+                    setUsd(range)
+
+                    const total = conversion * range
+                    setInr(total.toFixed(2))
+                    }
+
+                useEffect(() => {
+                    axios.get('http://api.exchangeratesapi.io/v1/latest?access_key=b6318ee631506bed80caf8b1baa96c48&symbols=USD,INR&format=1')
+                        .then((response) => {
+                            setData(response.data) 
+                            console.log(response.data.rates);
+                            setConversion((response.data.rates.INR / response.data.rates.USD).toFixed(2))
+                              
+                        })
+                }, [])
+ 
+                
+                return (
+                    <div>
+                        <h1>Currency Converter</h1><hr/>
+                        <h2>USD - {usd} </h2>
+                        <h2>INR - {inr} </h2>
+                        <input type="range" min="0" max="100" value={usd} onChange={handleRange}/><br/>
+                        <small>Note: 1 USD = {conversion}  INR </small>
+                    </div>
+            )
+           }
+           
+           ReactDOM.render(<CurrencyConverter/>, rootHandle)
+           
+        </script>
+    </body>
+</html>

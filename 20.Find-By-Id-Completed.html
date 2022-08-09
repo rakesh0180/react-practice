@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Show titles of completed Tasks
+
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+           
+           // Your code goes here 
+           const tasks = [
+        { id: 1, title: 'Task 1', isCompleted: true },
+        { id: 2, title: 'Task 2', isCompleted: true },
+        { id: 3, title: 'Task 3', isCompleted: false },
+        { id: 4, title: 'Task 4', isCompleted: false },
+        { id: 5, title: 'Task 5', isCompleted: true }
+    ]
+
+    function TasksList(props){
+
+
+        function display(){
+             const str = prompt('Enter the id')
+             let result = ` task with id - ${str} not found`
+             for(let i=0;i<(props.tasks.length);i++){
+                 if(props.tasks[i].id == str){
+                    result = ` task ${str} - ${props.tasks[i].isCompleted}  found`
+                 break   
+                }
+             }
+             alert(result)
+            
+            }
+
+
+        function display2(){
+            const result = []
+            props.tasks.forEach((ele) =>{
+                if(ele.isCompleted){
+                    result.push(ele.title)
+                }
+            })
+            const str = result.join(' ,')
+            alert(str)
+        }
+        return(
+            <div>
+            <button onClick={display}>Find Record By Id</button>
+            <button onClick ={display2}>Show Completed Tasks </button>
+            </div>
+        )
+    }
+    const ele =<TasksList tasks={tasks}/>
+    ReactDOM.render(ele,rootHandle)
+           
+        </script>
+    </body>
+</html>

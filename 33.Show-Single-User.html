@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Show single user
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+
+           const { useState, useEffect } = React
+
+           const UserSelect = (props) => {
+               const [ name, setName ] = useState('')
+               const [ email, setEmail ] = useState('')
+               const [ city, setCity ] = useState('')
+               const [ status, setStatus ] = useState(false)
+
+               useEffect(() => {
+                   axios.get('https://jsonplaceholder.typicode.com/users/1')
+                        .then((response) => {
+                            const result = response.data
+                            setName(result.name)
+                            setEmail(result.email)
+                            setCity(result.address.city)
+                            setStatus(true)
+                        })
+                }, [])
+                
+                return (
+                    <div>
+                        {status && <h1>{name} - {email} - {city} </h1>}
+                    </div>
+                )
+                       
+           }
+           ReactDOM.render(<UserSelect/>, rootHandle)           
+        </script>
+    </body>

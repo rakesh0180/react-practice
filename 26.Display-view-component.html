@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Display view
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+        <script type="text/babel">
+            const rootHandle = document.getElementById('root')
+
+
+            const { useState } = React
+            // const employees = [
+            //     { id: 1, name: 'emp1', email: 'emp1@gmail.com' },
+            //     { id: 2, name: 'emp2', email: 'emp2@gmail.com' },
+            //     { id: 3, name: 'emp3', email: 'emp3@gmail.com' },
+            //     { id: 4, name: 'emp4', email: 'emp4@gmail.com' }
+            // ]
+
+            function AppComponent(props){
+                const [employees, setEmployees] = useState([
+                    { id: 1, name: 'emp1', email: 'emp1@gmail.com' },
+                    { id: 2, name: 'emp2', email: 'emp2@gmail.com' },
+                    { id: 3, name: 'emp3', email: 'emp3@gmail.com' },
+                    { id: 4, name: 'emp4', email: 'emp4@gmail.com' }
+                ])
+                const [category, setCategory] = useState('List')
+                const [status, setStatus] = useState(true)
+
+                const changeHandle = (e) => {
+                    setCategory(e.target.value)
+                    setStatus(!status)
+                }
+
+                return( 
+                    <EmployeeContainer category={category} changeHandle={changeHandle} status={status} employees={employees}/>
+                )
+               
+            }
+            function EmployeeContainer(props){
+                const {category, changeHandle, status, employees} = props
+                return (
+                    <div>
+                        <form>
+                            <input type="radio" name="display" value='List' checked={category==='List'} onChange={changeHandle}/>List
+                            <input type="radio" name="display" value='Table' checked={category==='Table'} onChange={changeHandle} />Table
+                        </form>
+                        <h1>Listing Employees - {employees.length}</h1>
+                        {status ? <EmployeeList employees={employees}/> : 
+                            <EmployeeTable employees={employees}/>
+                        }
+                    </div>
+                )
+            }
+
+            function EmployeeList(props){
+                const {employees} = props
+                return(
+                    <ul>
+                        {employees.map((ele) => {
+                            return <li key={ele.id}>{ele.name} - {ele.email}</li>
+                        })}
+                    </ul>
+                )
+            }
+
+            
+            function EmployeeTable(props){
+                const {employees} = props
+               return(
+                    <table border="1px">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>name</th>
+                                <th>email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {employees.map((ele, i) => {
+                                return(
+                                    <tr key={ele.id}>
+                                        <td>{ele.id}</td>
+                                        <td>{ele.name}</td>
+                                        <td>{ele.email}</td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+               ) 
+            }
+           ReactDOM.render(<AppComponent/>, rootHandle)           
+        </script>
+    </body>
+</html>

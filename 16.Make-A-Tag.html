@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Make A Tag
+
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+           
+           // Your code goes here 
+           function TagGenerator(){
+               function display(){
+                   const str = prompt('Enter the string')
+                   const arr=str.split(' ')
+                   let result ='#'
+                   arr.forEach((ele)=>{
+                      result += (ele[0].toUpperCase()+ ele.slice(1))
+                    })
+                    alert(result)
+               }
+               return(
+                   <button onClick={display}>Enter a string</button>
+               )
+           }
+           
+           const ele=<TagGenerator/>
+           ReactDOM.render(ele,rootHandle)
+           
+        </script>
+    </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Vowels - Skip  
+        </title>
+    </head>
+    <body>
+        <div id="root">
+
+        </div>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+        <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+        <script type="text/babel">
+           const rootHandle = document.getElementById('root')
+           /*
+              Create a controller component called as VowelSkip
+              There is only one text area as the input field
+              Only non vowels needs to accepted by the input field
+           */
+
+           const { useState } = React 
+           function VowelSkip(props){
+               const[vowel, setVowel] = useState('')
+
+               const handleVowelChange = (e) => {
+                   const vowelInput = e.target.value
+                   setVowel(vowelInput)
+               }
+
+                 return(
+                     <div>
+                        <h1> {vowel.replace(/[aeiouAEIOU]/g, "")}</h1>
+                     <textarea value={vowel} onChange={handleVowelChange}></textarea>
+                     </div>
+                 )
+           }
+           ReactDOM.render(<VowelSkip/>,rootHandle)
+
+
+           
+            
+           
+        </script>
+    </body>
+</html>
